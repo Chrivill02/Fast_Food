@@ -1,31 +1,37 @@
 #Espacio para Chris
 import queue
+#Este numero es para saber el numero de orden (de los menus personalizados), es como un contador
 num_ordenP = 0
 
+#Clase donde instancio todos los ingredientes, bebidas, papas etc
 class Producto:
     def __init__(self, nombre_ingrediente, costo, cantidad):
         self.nombre_ingrediente = nombre_ingrediente
         self.costo = costo
+        #La cantidad se refiere a cuanto de cada cosa habrá al inici0
         self.cantidad = cantidad
 
+#Clase cola para ir agregando las acciones
 class ColaPedidos:
 
     def __init__(self):
         self.cola = queue.Queue()
+        #Lista para mostrar datos, ya que con cola si hago un get para mostrar lo retira de la cola
         self.listaPedidos = []
 
+    #Aqui como parametro un objeto de la clase pedido
     def agregar_pedido(self, pedido):
         self.cola.put(pedido)
         self.listaPedidos.append(pedido)
-        print("Se agregó correctamente el siguiente pedido: ", pedido)
-
+        print("Se agregó correctamente el siguiente pedido: ", pedido.nombre)
+#La clase pedido tiene nombre y estado
     def preparar_pedido(self):
         if self.listaPedidos[0].estado == "Pendiente":
             print("Preparando: ", self.listaPedidos[0])
             self.listaPedidos[0].estado = "En preparación"
         elif self.listaPedidos[0].estado == "En preparación":
             print("El pedido ya se encuentra en preparación")
-
+#Verificaciones para ver si se puede preparar o servir el pedido
     def listo_para_servir(self):
         if self.listaPedidos[0].estado == "Pendiente":
             print("El pedido aún no se ha preparado")
@@ -33,14 +39,14 @@ class ColaPedidos:
             pedido = self.cola.get()
             print("Pedido: ", pedido, " listo para servir")
             self.listaPedidos.pop(0)
-
+#Aqui es donde uso la lista de pedidos
     def mostrar_elementos_cola(self):
         try:
             for i in range(0, len(self.listaPedidos)):
                 print(self.listaPedidos[i].nombre)
         except IndexError:
             print("Cola de pedidos vacía")
-
+#Clase inventario en donde estará todo el stock
 class Inventario:
     def __init__(self):
         self.carne = Producto("Carne", 10, 40)
@@ -56,97 +62,97 @@ class Inventario:
         self.aderezo_delacasa = Producto("Aderezo de la casa", 3, 150)
         self.pepinillos = Producto("Pepinillos", 5, 100)
         self.tocino = Producto("Tocino", 4, 80)
-
+#El contador me servirá para saber si el menú se puede realizar o hat una cantidad (contador) de ingredientes faltantes
     def quitar_ingrediente(self, ingrediente, contador):
         if ingrediente == "Carne":
-            if self.carne == 0:
+            if self.carne.cantidad == 0:
                 print("No hay carne disponible")
                 return  1
             else:
                 self.carne.cantidad -= 1
                 return 0
         elif ingrediente == "Queso":
-            if self.queso == 0:
+            if self.queso.cantidad == 0:
                 print("No hay queso disponible")
                 return False
             else:
-                self.queso -= 1
+                self.queso.cantidad -= 1
         elif ingrediente == "Lechuga":
-            if self.lechuga == 0:
+            if self.lechuga.cantidad == 0:
                 print("No hay lechuga disponible")
                 return 1
             else:
-                self.lechuga -= 1
+                self.lechuga.cantidad -= 1
                 return 0
         elif ingrediente == "Tomate":
-            if self.tomate == 0:
+            if self.tomate.cantidad == 0:
                 print("No hay tomate disponible")
                 return 1
             else:
-                self.tomate -= 1
+                self.tomate.cantidad -= 1
                 return 0
         elif ingrediente == "Aderezo clasico":
-            if self.aderezo_clasico == 0:
+            if self.aderezo_clasico.cantidad == 0:
                 print("No hay aderezo clasico disponible")
                 return 1
             else:
-                self.aderezo_clasico -= 1
+                self.aderezo_clasico.cantidad -= 1
                 return 0
         elif ingrediente == "Papas":
-            if self.papas == 0:
+            if self.papas.cantidad == 0:
                 print("No hay papas disponible")
                 return 1
             else:
-                self.papas -= 1
+                self.papas.cantidad -= 1
                 return 0
         elif ingrediente == "Bebida":
-            if self.bebida == 0:
+            if self.bebida.cantidad == 0:
                 print("No hay bebidas disponible")
                 return 1
             else:
-                self.bebida -= 1
+                self.bebida.cantidad -= 1
                 return 0
         elif ingrediente == "Pan":
-            if self.pan == 0:
+            if self.pan.cantidad == 0:
                 print("No hay pan disponible")
                 return 1
             else:
-                self.pan -= 1
+                self.pan.cantidad -= 1
                 return 0
         elif ingrediente == "Cebolla morada":
-            if self.cebolla_morada == 0:
+            if self.cebolla_morada.cantidad == 0:
                 print("No hay cebolla morada disponible")
                 return 1
             else:
-                self.cebolla_morada -=1
+                self.cebolla_morada.cantidad -=1
                 return 0
         elif ingrediente == "Cebolla caramelizada":
-            if self.cebolla_caramelizada == 0:
+            if self.cebolla_caramelizada.cantidad == 0:
                 print("No hay cebolla caramelizada disponible")
                 return 1
             else:
-                self.cebolla_caramelizada -= 1
+                self.cebolla_caramelizada.cantidad -= 1
                 return 0
         elif ingrediente == "Aderezo de la casa":
-            if self.aderezo_delacasa == 0:
+            if self.aderezo_delacasa.cantidad == 0:
                 print("No hay aderezo de la casa disponible")
                 return 1
             else:
-                self.aderezo_delacasa -= 1
+                self.aderezo_delacasa.cantidad -= 1
                 return 0
         elif ingrediente == "Pepinillos":
-            if self.pepinillos == 0:
+            if self.pepinillos.cantidad == 0:
                 print("No hay pepinillos disponible")
                 return 1
             else:
-                self.pepinillos -= 1
+                self.pepinillos.cantidad -= 1
                 return 0
         elif ingrediente == "Tocino":
-            if self.tocino == 0:
+            if self.tocino.cantidad == 0:
                 print("No hay tocino disponible")
                 return 1
             else:
-                self.tocino -= 1
+                self.tocino.cantidad -= 1
                 return 0
 
     def mostrar_inventario(self):
@@ -166,7 +172,7 @@ class Inventario:
         print("Bebidas: ", self.bebida.cantidad)
 
 
-
+#Clase pedido, ya que tiene nombre y estado
 class Pedido:
     def __init__(self, nombre, estado):
         self.nombre = nombre
@@ -215,6 +221,8 @@ while opcion != 0:
                     print("Faltaron: ", contador, " ingredientes")
         elif opcion_menu == 2:
             opcion_menuP = 1
+            #El apartado personalizado consta de una hamburguesa con los ingredientes que el cliente desee
+            #Hasta que se finalize la orden el cliente podrá agregar cuantos ingredientes quiera
             while opcion_menuP != 0:
                 print("Bienvenido al apartado personalizado, selecciona que quieres agregar a tu orden")
                 print("1. Hamburguesas")
@@ -222,12 +230,16 @@ while opcion != 0:
                 print("3. Bebidas")
                 print("4. Ver orden")
                 print("0. Finalizar orden")
+                #El dinero empieza en 5 ya que se agrega el pan automaticamente
                 total_dinero = 5
+                #Lista de los ingredientes de la hamburguesa
                 listaOrdenP = []
                 opcion_menuP = int(input(""))
                 if opcion_menuP == 1:
                     opcion_ingredientes = 1
                     listaHamburguesaP = []
+                    #Tengo una listaOrden para que cuando se muestren las ordenes aparezca hamburugesa personaliza,
+                    #Bebida, papas o solo bebida o solo papas
                     listaOrdenP.append("Hamburguesa Personalizada")
                     listaHamburguesaP.append("Pan")
                     while opcion_ingredientes != 0:
@@ -291,10 +303,12 @@ while opcion != 0:
                                 print(listaHamburguesaP[i], end=" , ")
                             print("Total: ", total_dinero)
                 elif opcion_menuP == 2:
+                    #Aqui si se agregan las papas tiene que ver con la orden, no con la otra lista de ingredientes
                     listaOrdenP.append("Porcion de papas")
                     inventario.quitar_ingrediente("Papas")
                     total_dinero = total_dinero + inventario.pepinillos.costo
                 elif opcion_menuP == 3:
+                    #Lo mismo de la orden pasa con la bebida
                     listaOrdenP.append("Bebida")
                     inventario.quitar_ingrediente("Bebida")
                 elif opcion_menuP == 4:
@@ -302,15 +316,18 @@ while opcion != 0:
                         print(listaOrdenP[i], end=" , ")
                     print("Total: ", total_dinero)
                 elif opcion_menuP == 0:
+                    #Aqui se usa la lista de la orden con el numero de orden
                     num_ordenP += 1
                     print("Orden: ", num_ordenP, " Agregada!")
                     cola.agregar_pedido(Pedido("Menú personalizado: " + str(num_ordenP), "Pendiente"))
 
     elif opcion == 2:
+        #Muestro el inventario
         print("Bienvenido al seguimiento de stock")
         inventario.mostrar_inventario()
 
     elif opcion == 3:
+        #Realiza acciones el personal de restaurante para marcar pedidos como preparados o listos para servir
         print("Bienvenido al apartado de la cola de pedidos")
         opcion_cola = 1
         while opcion_cola != 0:
