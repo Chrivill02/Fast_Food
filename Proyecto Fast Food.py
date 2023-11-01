@@ -9,7 +9,7 @@ class Producto:
         self.cantidad = cantidad
 
 class ColaPedidos:
-    
+
     def __init__(self):
         self.cola = queue.Queue()
         self.listaPedidos = []
@@ -57,33 +57,97 @@ class Inventario:
         self.pepinillos = Producto("Pepinillos", 5, 100)
         self.tocino = Producto("Tocino", 4, 80)
 
-    def quitar_ingrediente(self, ingrediente):
+    def quitar_ingrediente(self, ingrediente, contador):
         if ingrediente == "Carne":
-            self.carne.cantidad -= 1
+            if self.carne == 0:
+                print("No hay carne disponible")
+                return  1
+            else:
+                self.carne.cantidad -= 1
+                return 0
         elif ingrediente == "Queso":
-            self.queso -= 1
+            if self.queso == 0:
+                print("No hay queso disponible")
+                return False
+            else:
+                self.queso -= 1
         elif ingrediente == "Lechuga":
-            self.lechuga -= 1
+            if self.lechuga == 0:
+                print("No hay lechuga disponible")
+                return 1
+            else:
+                self.lechuga -= 1
+                return 0
         elif ingrediente == "Tomate":
-            self.tomate -= 1
+            if self.tomate == 0:
+                print("No hay tomate disponible")
+                return 1
+            else:
+                self.tomate -= 1
+                return 0
         elif ingrediente == "Aderezo clasico":
-            self.aderezo_clasico -= 1
+            if self.aderezo_clasico == 0:
+                print("No hay aderezo clasico disponible")
+                return 1
+            else:
+                self.aderezo_clasico -= 1
+                return 0
         elif ingrediente == "Papas":
-            self.papas -= 1
+            if self.papas == 0:
+                print("No hay papas disponible")
+                return 1
+            else:
+                self.papas -= 1
+                return 0
         elif ingrediente == "Bebida":
-            self.bebida -= 1
+            if self.bebida == 0:
+                print("No hay bebidas disponible")
+                return 1
+            else:
+                self.bebida -= 1
+                return 0
         elif ingrediente == "Pan":
-            self.pan -= 1
+            if self.pan == 0:
+                print("No hay pan disponible")
+                return 1
+            else:
+                self.pan -= 1
+                return 0
         elif ingrediente == "Cebolla morada":
-            self.cebolla_morada -=1
+            if self.cebolla_morada == 0:
+                print("No hay cebolla morada disponible")
+                return 1
+            else:
+                self.cebolla_morada -=1
+                return 0
         elif ingrediente == "Cebolla caramelizada":
-            self.cebolla_caramelizada -= 1
+            if self.cebolla_caramelizada == 0:
+                print("No hay cebolla caramelizada disponible")
+                return 1
+            else:
+                self.cebolla_caramelizada -= 1
+                return 0
         elif ingrediente == "Aderezo de la casa":
-            self.aderezo_delacasa -= 1
+            if self.aderezo_delacasa == 0:
+                print("No hay aderezo de la casa disponible")
+                return 1
+            else:
+                self.aderezo_delacasa -= 1
+                return 0
         elif ingrediente == "Pepinillos":
-            self.pepinillos -= 1
+            if self.pepinillos == 0:
+                print("No hay pepinillos disponible")
+                return 1
+            else:
+                self.pepinillos -= 1
+                return 0
         elif ingrediente == "Tocino":
-            self.tocino -= 1
+            if self.tocino == 0:
+                print("No hay tocino disponible")
+                return 1
+            else:
+                self.tocino -= 1
+                return 0
 
     def mostrar_inventario(self):
         print("Bienvenido al inventario! Lo que verás a continuacion es la cantidad de cada ingrediente")
@@ -100,6 +164,7 @@ class Inventario:
         print("Tocinos: ", self.tocino.cantidad)
         print("Papas: ", self.papas.cantidad)
         print("Bebidas: ", self.bebida.cantidad)
+
 
 
 class Pedido:
@@ -132,17 +197,22 @@ while opcion != 0:
             print("4. Q40 Combo Hamburguesa de la casa, papas y bebida")
             opcion_combos = int(input(""))
             if opcion_combos == 1:
-                inventario.quitar_ingrediente("Pan")
-                inventario.quitar_ingrediente("Carne")
-                inventario.quitar_ingrediente("Queso")
-                inventario.quitar_ingrediente("Lechuga")
-                inventario.quitar_ingrediente("Tomate")
-                inventario.quitar_ingrediente("Aderezo clasico")
-                inventario.quitar_ingrediente("Pepinillos")
-                inventario.quitar_ingrediente("Papas")
-                inventario.quitar_ingrediente("Bebida")
-                cola.agregar_pedido(Pedido("Combo Hamburguesa clasica", "Pendiente"))
-
+                #Aqui me quede              verificacion de ingredientes
+                contador = 0
+                contador = inventario.quitar_ingrediente("Pan", contador) + contador
+                contador = inventario.quitar_ingrediente("Carne", contador)+ contador
+                contador = inventario.quitar_ingrediente("Queso", contador)+ contador
+                contador = inventario.quitar_ingrediente("Lechuga", contador)+ contador
+                contador = inventario.quitar_ingrediente("Tomate", contador)+ contador
+                contador = inventario.quitar_ingrediente("Aderezo clasico", contador)+ contador
+                contador = inventario.quitar_ingrediente("Pepinillos", contador)+ contador
+                contador = inventario.quitar_ingrediente("Papas", contador)+ contador
+                contador = inventario.quitar_ingrediente("Bebida",contador)+ contador
+                if contador == 0:
+                    cola.agregar_pedido(Pedido("Combo Hamburguesa clasica", "Pendiente"))
+                else:
+                    print("No hay ingredientes suficientes!")
+                    print("Faltaron: ", contador, " ingredientes")
         elif opcion_menu == 2:
             opcion_menuP = 1
             while opcion_menuP != 0:
