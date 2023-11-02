@@ -26,26 +26,32 @@ class ColaPedidos:
         print("Se agregó correctamente el siguiente pedido: ", pedido.nombre)
 #La clase pedido tiene nombre y estado
     def preparar_pedido(self):
-        if self.listaPedidos[0].estado == "Pendiente":
-            print("Preparando: ", self.listaPedidos[0])
-            self.listaPedidos[0].estado = "En preparación"
-        elif self.listaPedidos[0].estado == "En preparación":
-            print("El pedido ya se encuentra en preparación")
+        try:
+            if self.listaPedidos[0].estado == "Pendiente":
+                print("Preparando: ", self.listaPedidos[0].nombre)
+                self.listaPedidos[0].estado = "En preparación"
+            elif self.listaPedidos[0].estado == "En preparación":
+                print("El pedido ya se encuentra en preparación")
+        except IndexError:
+            print("No hay pedidos para preparar")
 #Verificaciones para ver si se puede preparar o servir el pedido
     def listo_para_servir(self):
-        if self.listaPedidos[0].estado == "Pendiente":
-            print("El pedido aún no se ha preparado")
-        if self.listaPedidos[0].estado == "En preparación":
-            pedido = self.cola.get()
-            print("Pedido: ", pedido, " listo para servir")
-            self.listaPedidos.pop(0)
+        try:
+            if self.listaPedidos[0].estado == "Pendiente":
+                print("El pedido aún no se ha preparado")
+            if self.listaPedidos[0].estado == "En preparación":
+                pedido = self.cola.get()
+                print("Pedido: ", pedido.nombre, " listo para servir")
+                self.listaPedidos.pop(0)
+        except IndexError:
+            print("No hay pedidos para servir")
 #Aqui es donde uso la lista de pedidos
     def mostrar_elementos_cola(self):
-        try:
-            for i in range(0, len(self.listaPedidos)):
-                print(self.listaPedidos[i].nombre)
-        except IndexError:
-            print("Cola de pedidos vacía")
+        if len(self.listaPedidos) == 0:
+            print("Cola vacia")
+        for i in range(0, len(self.listaPedidos)):
+            print(self.listaPedidos[i].nombre)
+
 #Clase inventario en donde estará todo el stock
 class Inventario:
     def __init__(self):
@@ -74,9 +80,10 @@ class Inventario:
         elif ingrediente == "Queso":
             if self.queso.cantidad == 0:
                 print("No hay queso disponible")
-                return False
+                return 1
             else:
                 self.queso.cantidad -= 1
+                return 0
         elif ingrediente == "Lechuga":
             if self.lechuga.cantidad == 0:
                 print("No hay lechuga disponible")
@@ -189,33 +196,96 @@ while opcion != 0:
     print("3. Cola de pedidos")
     print("4. Facturación y pagos")
     print("5. Administracion de clientes")
-    opcion = int(input(""))
+    print("0. Salir")
+    try:
+        opcion = int(input(""))
+    except ValueError:
+        print("Error, ingrese solo numeros")
+        opcion = 7
     if opcion == 1:
         print("Bienvenido al menu")
         print("1. Combos")
         print("2. Personalizado")
-        opcion_menu = int(input(""))
+        try:
+            opcion_menu = int(input(""))
+        except ValueError:
+            print("Error, ingrese solo numeros")
+            opcion_menu = 3
         if opcion_menu == 1:
             print("Bienvenido a los combos")
             print("1. Q30 Combo Hamburguesa clasica con papas y bebida")
             print("2. Q35 Combo Hamburguesa con tocino, papas y bebida")
             print("3. Q35 Combo Hamburguesa con doble queso, papas y bebida")
             print("4. Q40 Combo Hamburguesa de la casa, papas y bebida")
-            opcion_combos = int(input(""))
+            try:
+                opcion_combos = int(input(""))
+            except ValueError:
+                print("Error, ingrese solo numeros")
+                opcion_combos = 5
             if opcion_combos == 1:
                 #Aqui me quede              verificacion de ingredientes
                 contador = 0
-                contador = inventario.quitar_ingrediente("Pan", contador) + contador
-                contador = inventario.quitar_ingrediente("Carne", contador)+ contador
-                contador = inventario.quitar_ingrediente("Queso", contador)+ contador
-                contador = inventario.quitar_ingrediente("Lechuga", contador)+ contador
-                contador = inventario.quitar_ingrediente("Tomate", contador)+ contador
-                contador = inventario.quitar_ingrediente("Aderezo clasico", contador)+ contador
-                contador = inventario.quitar_ingrediente("Pepinillos", contador)+ contador
-                contador = inventario.quitar_ingrediente("Papas", contador)+ contador
-                contador = inventario.quitar_ingrediente("Bebida",contador)+ contador
+                contador = contador + inventario.quitar_ingrediente("Pan", contador)
+                contador =  contador + inventario.quitar_ingrediente("Carne", contador)
+                contador =  contador + inventario.quitar_ingrediente("Queso", contador)
+                contador = contador + inventario.quitar_ingrediente("Lechuga", contador)
+                contador =  contador + inventario.quitar_ingrediente("Tomate", contador)
+                contador =  contador + inventario.quitar_ingrediente("Aderezo clasico", contador)
+                contador =  contador + inventario.quitar_ingrediente("Pepinillos", contador)
+                contador =  contador + inventario.quitar_ingrediente("Papas", contador)
+                contador =  contador + inventario.quitar_ingrediente("Bebida",contador)
                 if contador == 0:
                     cola.agregar_pedido(Pedido("Combo Hamburguesa clasica", "Pendiente"))
+                else:
+                    print("No hay ingredientes suficientes!")
+                    print("Faltaron: ", contador, " ingredientes")
+            elif opcion_combos == 2:
+                contador = 0
+                contador = inventario.quitar_ingrediente("Pan", contador) + contador
+                contador = inventario.quitar_ingrediente("Carne", contador) + contador
+                contador = inventario.quitar_ingrediente("Queso", contador) + contador
+                contador = inventario.quitar_ingrediente("Lechuga", contador) + contador
+                contador = inventario.quitar_ingrediente("Tomate", contador) + contador
+                contador = inventario.quitar_ingrediente("Aderezo clasico", contador) + contador
+                contador = inventario.quitar_ingrediente("Tocino", contador) + contador
+                contador = inventario.quitar_ingrediente("Papas", contador) + contador
+                contador = inventario.quitar_ingrediente("Bebida", contador) + contador
+                if contador == 0:
+                    cola.agregar_pedido(Pedido("Combo Hamburguesa con tocino", "Pendiente"))
+                else:
+                    print("No hay ingredientes suficientes!")
+                    print("Faltaron: ", contador, " ingredientes")
+            elif opcion_combos == 3:
+                contador = 0
+                contador = inventario.quitar_ingrediente("Pan", contador) + contador
+                contador = inventario.quitar_ingrediente("Carne", contador) + contador
+                contador = inventario.quitar_ingrediente("Queso", contador) + contador
+                contador = inventario.quitar_ingrediente("Queso", contador) + contador
+                contador = inventario.quitar_ingrediente("Lechuga", contador) + contador
+                contador = inventario.quitar_ingrediente("Tomate", contador) + contador
+                contador = inventario.quitar_ingrediente("Aderezo clasico", contador) + contador
+                contador = inventario.quitar_ingrediente("Cebolla morada", contador) + contador
+                contador = inventario.quitar_ingrediente("Papas", contador) + contador
+                contador = inventario.quitar_ingrediente("Bebida", contador) + contador
+                if contador == 0:
+                    cola.agregar_pedido(Pedido("Combo Hamburguesa con doble queso", "Pendiente"))
+                else:
+                    print("No hay ingredientes suficientes!")
+                    print("Faltaron: ", contador, " ingredientes")
+            elif opcion_combos == 4:
+                contador = 0
+                contador = inventario.quitar_ingrediente("Pan", contador) + contador
+                contador = inventario.quitar_ingrediente("Carne", contador) + contador
+                contador = inventario.quitar_ingrediente("Queso", contador) + contador
+                contador = inventario.quitar_ingrediente("Cebolla caramelizada", contador) + contador
+                contador = inventario.quitar_ingrediente("Lechuga", contador) + contador
+                contador = inventario.quitar_ingrediente("Tomate", contador) + contador
+                contador = inventario.quitar_ingrediente("Aderezo de la casa", contador) + contador
+                contador = inventario.quitar_ingrediente("Pepinillos", contador) + contador
+                contador = inventario.quitar_ingrediente("Papas", contador) + contador
+                contador = inventario.quitar_ingrediente("Bebida", contador) + contador
+                if contador == 0:
+                    cola.agregar_pedido(Pedido("Combo Hamburguesa de la casa", "Pendiente"))
                 else:
                     print("No hay ingredientes suficientes!")
                     print("Faltaron: ", contador, " ingredientes")
@@ -223,6 +293,8 @@ while opcion != 0:
             opcion_menuP = 1
             #El apartado personalizado consta de una hamburguesa con los ingredientes que el cliente desee
             #Hasta que se finalize la orden el cliente podrá agregar cuantos ingredientes quiera
+            total_dinero = 0
+            listaOrdenP = []
             while opcion_menuP != 0:
                 print("Bienvenido al apartado personalizado, selecciona que quieres agregar a tu orden")
                 print("1. Hamburguesas")
@@ -230,91 +302,128 @@ while opcion != 0:
                 print("3. Bebidas")
                 print("4. Ver orden")
                 print("0. Finalizar orden")
-                #El dinero empieza en 5 ya que se agrega el pan automaticamente
-                total_dinero = 5
                 #Lista de los ingredientes de la hamburguesa
-                listaOrdenP = []
-                opcion_menuP = int(input(""))
+                try:
+                    opcion_menuP = int(input(""))
+                except ValueError:
+                    print("Error, ingrese solo numeros")
+                    opcion_menuP = 6
                 if opcion_menuP == 1:
                     opcion_ingredientes = 1
                     listaHamburguesaP = []
                     #Tengo una listaOrden para que cuando se muestren las ordenes aparezca hamburugesa personaliza,
                     #Bebida, papas o solo bebida o solo papas
-                    listaOrdenP.append("Hamburguesa Personalizada")
-                    listaHamburguesaP.append("Pan")
-                    while opcion_ingredientes != 0:
-                        print("Ingresa los ingredientes que deseas a tu orden (El pan se agrega automaticamente)")
-                        print("1. Carne")
-                        print("2. Queso")
-                        print("3. Lechuga")
-                        print("4. Tomate")
-                        print("5. Cebolla morada")
-                        print("6. Cebolla caramelizada")
-                        print("7. Aderezo clasico")
-                        print("8. Aderezo de la casa")
-                        print("9. Tocino")
-                        print("10. Pepinillos")
-                        print("11. Ver lista de ingredientes para hamburguesa")
-                        print("0. Finalizar")
-                        opcion_ingredientes = int(input(""))
-                        if opcion_ingredientes == 1:
-                            listaHamburguesaP.append("Carne")
-                            inventario.quitar_ingrediente("Carne")
-                            total_dinero = total_dinero + inventario.carne.costo
-                        elif opcion_ingredientes == 2:
-                            listaHamburguesaP.append("Queso")
-                            inventario.quitar_ingrediente("Queso")
-                            total_dinero = total_dinero + inventario.queso.costo
-                        elif opcion_ingredientes == 3:
-                            listaHamburguesaP.append("Lechuga")
-                            inventario.quitar_ingrediente("Lechuga")
-                            total_dinero = total_dinero + inventario.lechuga.costo
-                        elif opcion_ingredientes == 4:
-                            listaHamburguesaP.append("Tomate")
-                            inventario.quitar_ingrediente("Tomate")
-                            total_dinero = total_dinero + inventario.tomate.costo
-                        elif opcion_ingredientes == 5:
-                            listaHamburguesaP.append("Cebolla morada")
-                            inventario.quitar_ingrediente("Cebolla morada")
-                            total_dinero = total_dinero + inventario.cebolla_morada.costo
-                        elif opcion_ingredientes == 6:
-                            listaHamburguesaP.append("Cebolla caramelizada")
-                            inventario.quitar_ingrediente("Cebolla caramelizada")
-                            total_dinero = total_dinero + inventario.cebolla_caramelizada.costo
-                        elif opcion_ingredientes == 7:
-                            listaHamburguesaP.append("Aderezo clasico")
-                            inventario.quitar_ingrediente("Aderezo clasico")
-                            total_dinero = total_dinero + inventario.aderezo_clasico.costo
-                        elif opcion_ingredientes == 8:
-                            listaHamburguesaP.append("Aderezo de la casa")
-                            inventario.quitar_ingrediente("Aderezo de la casa")
-                            total_dinero = total_dinero + inventario.aderezo_delacasa.costo
-                        elif opcion_ingredientes == 9:
-                            listaHamburguesaP.append("Tocino")
-                            inventario.quitar_ingrediente("Tocino")
-                            total_dinero = total_dinero + inventario.tocino.costo
-                        elif opcion_ingredientes == 10:
-                            listaHamburguesaP.append("Pepinillos")
-                            inventario.quitar_ingrediente("Pepinillos")
-                            total_dinero = total_dinero + inventario.pepinillos.costo
-                        elif opcion_ingredientes == 11:
-                            print("Ingredientes: ")
-                            for i in range(0, len(listaHamburguesaP)):
-                                print(listaHamburguesaP[i], end=" , ")
-                            print("Total: ", total_dinero)
+                    contadorP2 = inventario.quitar_ingrediente("Pan", 0)
+                    if contadorP2 == 0:
+                        listaOrdenP.append("Hamburguesa Personalizada")
+                        listaHamburguesaP.append("Pan")
+                        total_dinero = total_dinero + inventario.pan.costo
+                        while opcion_ingredientes != 0:
+                            print("Ingresa los ingredientes que deseas a tu orden (El pan se agrega automaticamente)")
+                            print("1. Carne")
+                            print("2. Queso")
+                            print("3. Lechuga")
+                            print("4. Tomate")
+                            print("5. Cebolla morada")
+                            print("6. Cebolla caramelizada")
+                            print("7. Aderezo clasico")
+                            print("8. Aderezo de la casa")
+                            print("9. Tocino")
+                            print("10. Pepinillos")
+                            print("11. Ver lista de ingredientes para hamburguesa")
+                            print("0. Finalizar")
+                            try:
+                                opcion_ingredientes = int(input(""))
+                            except ValueError:
+                                print("Error, ingrese solo numeros")
+                                opcion_menu = 15
+                            if opcion_ingredientes == 1:
+                                contadorP2 = inventario.quitar_ingrediente("Carne", 0)
+                                if contadorP2 == 0:
+                                    listaHamburguesaP.append("Carne")
+                                    total_dinero = total_dinero + inventario.carne.costo
+                                    print("Se agregó la carne correctamente")
+                            elif opcion_ingredientes == 2:
+                                contadorP2 = inventario.quitar_ingrediente("Queso", 0)
+                                if contadorP2 == 0:
+                                    listaHamburguesaP.append("Queso")
+                                    total_dinero = total_dinero + inventario.queso.costo
+                                    print("Se agregó el queso correctamente")
+                            elif opcion_ingredientes == 3:
+                                contadorP2 = inventario.quitar_ingrediente("Lechuga", 0)
+                                if contadorP2 == 0:
+                                    listaHamburguesaP.append("Lechuga")
+                                    total_dinero = total_dinero + inventario.lechuga.costo
+                                    print("Se agregó lechuga correctamente")
+                            elif opcion_ingredientes == 4:
+                                contadorP2 = inventario.quitar_ingrediente("Tomate", 0)
+                                if contadorP2 == 0:
+                                    listaHamburguesaP.append("Tomate")
+                                    total_dinero = total_dinero + inventario.tomate.costo
+                                    print("Se agregó el tomate correctamente")
+                            elif opcion_ingredientes == 5:
+                                contadorP2 = inventario.quitar_ingrediente("Cebolla morada", 0)
+                                if contadorP2 == 0:
+                                    listaHamburguesaP.append("Cebolla morada")
+                                    total_dinero = total_dinero + inventario.cebolla_morada.costo
+                                    print("Se agregó cebolla morada correctamente")
+                            elif opcion_ingredientes == 6:
+                                contadorP2 = inventario.quitar_ingrediente("Cebolla caramelizada", 0)
+                                if contadorP2 == 0:
+                                    listaHamburguesaP.append("Cebolla caramelizada")
+                                    total_dinero = total_dinero + inventario.cebolla_caramelizada.costo
+                                    print("Se agregó cebolla caramelizada correctamente")
+                            elif opcion_ingredientes == 7:
+                                contadorP2 = inventario.quitar_ingrediente("Aderezo clasico", 0)
+                                if contadorP2 == 0:
+                                    listaHamburguesaP.append("Aderezo clasico")
+                                    total_dinero = total_dinero + inventario.aderezo_clasico.costo
+                                    print("Se agregó aderezo clasico correctamente")
+                            elif opcion_ingredientes == 8:
+                                contadorP2 = inventario.quitar_ingrediente("Aderezo de la casa" , 0)
+                                if contadorP2 == 0:
+                                    listaHamburguesaP.append("Aderezo de la casa")
+                                    total_dinero = total_dinero + inventario.aderezo_delacasa.costo
+                                    print("Se agregó aderezo de la casa correctamente")
+                            elif opcion_ingredientes == 9:
+                                contadorP2 = inventario.quitar_ingrediente("Tocino", 0)
+                                if contadorP2 == 0:
+                                    listaHamburguesaP.append("Tocino")
+                                    total_dinero = total_dinero + inventario.tocino.costo
+                                    print("Se agregó tocino correctamente")
+                            elif opcion_ingredientes == 10:
+                                contadorP2 = inventario.quitar_ingrediente("Pepinillos", 0)
+                                if contadorP2 == 0:
+                                    listaHamburguesaP.append("Pepinillos")
+                                    total_dinero = total_dinero + inventario.pepinillos.costo
+                                    print("Se agregaron pepinillos correctamente")
+                            elif opcion_ingredientes == 11:
+                                print("Ingredientes: ")
+                                for i in range(0, len(listaHamburguesaP)):
+                                    print(listaHamburguesaP[i], end=" , ")
+                                print("Total: ", total_dinero)
+                    else:
+                        print("No hay pan para hamburguesa")
                 elif opcion_menuP == 2:
                     #Aqui si se agregan las papas tiene que ver con la orden, no con la otra lista de ingredientes
-                    listaOrdenP.append("Porcion de papas")
-                    inventario.quitar_ingrediente("Papas")
-                    total_dinero = total_dinero + inventario.pepinillos.costo
+                    contadorP2 = inventario.quitar_ingrediente("Papas", 0)
+                    if contadorP2 == 0:
+                        listaOrdenP.append("Porcion de papas")
+                        total_dinero = total_dinero + inventario.pepinillos.costo
+                        print("Se agregaron papas correctamente")
                 elif opcion_menuP == 3:
                     #Lo mismo de la orden pasa con la bebida
+                    contadorP2 = inventario.quitar_ingrediente("Bebida", 0)
                     listaOrdenP.append("Bebida")
-                    inventario.quitar_ingrediente("Bebida")
+                    total_dinero = total_dinero + inventario.bebida.costo
+                    print("Se agregó bebida correctamente")
                 elif opcion_menuP == 4:
-                    for i in range(0, len(listaOrdenP)):
-                        print(listaOrdenP[i], end=" , ")
-                    print("Total: ", total_dinero)
+                    try:
+                        for i in range(0, len(listaOrdenP)):
+                            print(listaOrdenP[i], end=" , ")
+                        print("Total: ", total_dinero)
+                    except IndexError:
+                        print("No hay ningun elemento agregado a la orden")
                 elif opcion_menuP == 0:
                     #Aqui se usa la lista de la orden con el numero de orden
                     num_ordenP += 1
@@ -335,7 +444,11 @@ while opcion != 0:
             print("2. Marcar pedido como listo para servir")
             print("3. Ver la cola de pedidos")
             print("0. Salir")
-            opcion_cola = int(input(""))
+            try:
+                opcion_cola = int(input(""))
+            except ValueError:
+                print("Ingrese solo numeros")
+                opcion_cola = 5
             if opcion_cola == 1:
                 cola.preparar_pedido()
             elif opcion_cola == 2:
