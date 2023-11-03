@@ -2,8 +2,10 @@
 import queue
 #Este numero es para saber el numero de orden (de los menus personalizados), es como un contador
 num_ordenP = 0
+num_orden = 0
 
 #Clase donde instancio todos los ingredientes, bebidas, papas etc
+
 class Producto:
     def __init__(self, nombre_ingrediente, costo, cantidad):
         self.nombre_ingrediente = nombre_ingrediente
@@ -24,7 +26,25 @@ class ColaPedidos:
         self.cola.put(pedido)
         self.listaPedidos.append(pedido)
         print("Se agregó correctamente el siguiente pedido: ", pedido.nombre)
+
 #La clase pedido tiene nombre y estado
+
+    #ColaPendiente: Orden1, Orden2
+    #ColaPreparacion:
+    #ColaListos:
+
+    #ColaPendiente: Orden2
+    #ColaPreparacion: Orden1
+    #ColaListos:
+
+    #ColaPendiente:
+    #ColaPreparacion = Orden2
+    #ColaListos: Orden1
+
+    #def entregado()
+    #colaListos.get
+
+
     def preparar_pedido(self):
         try:
             if self.listaPedidos[0].estado == "Pendiente":
@@ -39,22 +59,62 @@ class ColaPedidos:
         try:
             if self.listaPedidos[0].estado == "Pendiente":
                 print("El pedido aún no se ha preparado")
-            if self.listaPedidos[0].estado == "En preparación":
+            elif self.listaPedidos[0].estado == "En preparación":
                 pedido = self.cola.get()
                 print("Pedido: ", pedido.nombre, " listo para servir")
                 self.listaPedidos.pop(0)
+                return pedido
         except IndexError:
             print("No hay pedidos para servir")
+
 #Aqui es donde uso la lista de pedidos
     def mostrar_elementos_cola(self):
         if len(self.listaPedidos) == 0:
             print("Cola vacia")
         for i in range(0, len(self.listaPedidos)):
-            print(self.listaPedidos[i].nombre)
+            print(self.listaPedidos[i].nombre, ". Estado: ", self.listaPedidos[i].estado)
 
+
+#Parte de sebas
+def definir_pago():
+    tipo_pago = input("1. Tarjeta de credito\n"
+                      "2. En efectivo\n"
+                      "Seleccione su tipo de pago: ")
+
+    return tipo_pago
+
+
+class Factura:
+    def __init__(self, no_pedido, total, producto):
+        self.no_pedido = no_pedido
+        self.producto = producto
+        self.total = total
+        self.tipo_pago = definir_pago()
+        self.cobro = False
+
+    def mostrar_factura(self):
+        print("\n")
+        print("----------------------")
+        print(f"    {self.no_pedido}")
+        print(f"    {self.total}")
+        print(f"    {self.tipo_pago}")
+        print("----------------------")
+
+    def cobrar(self):
+        if not self.cobro:
+            if self.tipo_pago == "Tarjeta de credito":
+                numero_tarjeta = int(input("Ingrese el numero de su tarjeta: "))
+                print("Se ha pagado su orden :D")
+                numero_tarjeta = 0
+
+            elif self.tipo_pago == "En efectivo":
+                print("Pago realizado :D")
+        else:
+            print("El pago ya esta hecho :D")
 #Clase inventario en donde estará todo el stock
 class Inventario:
     def __init__(self):
+        self.lista = []
         self.carne = Producto("Carne", 10, 40)
         self.queso = Producto("Queso", 5, 80)
         self.lechuga = Producto("Lechuga", 2, 70)
@@ -69,6 +129,8 @@ class Inventario:
         self.pepinillos = Producto("Pepinillos", 5, 100)
         self.tocino = Producto("Tocino", 4, 80)
 #El contador me servirá para saber si el menú se puede realizar o hat una cantidad (contador) de ingredientes faltantes
+    #def agregar_ingrediente():
+    #self.lista.append(Producto("Nombre", costo, cantidad))
     def quitar_ingrediente(self, ingrediente, contador):
         if ingrediente == "Carne":
             if self.carne.cantidad == 0:
@@ -181,10 +243,66 @@ class Inventario:
 
 #Clase pedido, ya que tiene nombre y estado
 class Pedido:
-    def __init__(self, nombre, estado):
+    def __init__(self, nombre, estado, num_orden, total):
         self.nombre = nombre
         self.estado = estado
+        self.num_orden = num_orden
+        self.total = total
+def quitar_ingredientesC1():
+    contador = 0
+    contador = contador + inventario.quitar_ingrediente("Pan", contador)
+    contador = contador + inventario.quitar_ingrediente("Carne", contador)
+    contador = contador + inventario.quitar_ingrediente("Queso", contador)
+    contador = contador + inventario.quitar_ingrediente("Lechuga", contador)
+    contador = contador + inventario.quitar_ingrediente("Tomate", contador)
+    contador = contador + inventario.quitar_ingrediente("Aderezo clasico", contador)
+    contador = contador + inventario.quitar_ingrediente("Pepinillos", contador)
+    contador = contador + inventario.quitar_ingrediente("Papas", contador)
+    contador = contador + inventario.quitar_ingrediente("Bebida", contador)
+    return contador
 
+def quitar_ingredientesC2():
+    contador = 0
+    contador = inventario.quitar_ingrediente("Pan", contador) + contador
+    contador = inventario.quitar_ingrediente("Carne", contador) + contador
+    contador = inventario.quitar_ingrediente("Queso", contador) + contador
+    contador = inventario.quitar_ingrediente("Lechuga", contador) + contador
+    contador = inventario.quitar_ingrediente("Tomate", contador) + contador
+    contador = inventario.quitar_ingrediente("Aderezo clasico", contador) + contador
+    contador = inventario.quitar_ingrediente("Tocino", contador) + contador
+    contador = inventario.quitar_ingrediente("Papas", contador) + contador
+    contador = inventario.quitar_ingrediente("Bebida", contador) + contador
+    return contador
+
+def quitar_ingredientesC3():
+    contador = 0
+    contador = inventario.quitar_ingrediente("Pan", contador) + contador
+    contador = inventario.quitar_ingrediente("Carne", contador) + contador
+    contador = inventario.quitar_ingrediente("Queso", contador) + contador
+    contador = inventario.quitar_ingrediente("Queso", contador) + contador
+    contador = inventario.quitar_ingrediente("Lechuga", contador) + contador
+    contador = inventario.quitar_ingrediente("Tomate", contador) + contador
+    contador = inventario.quitar_ingrediente("Aderezo clasico", contador) + contador
+    contador = inventario.quitar_ingrediente("Cebolla morada", contador) + contador
+    contador = inventario.quitar_ingrediente("Papas", contador) + contador
+    contador = inventario.quitar_ingrediente("Bebida", contador) + contador
+    return contador
+
+def quitar_ingredientesC4():
+    contador = 0
+    contador = inventario.quitar_ingrediente("Pan", contador) + contador
+    contador = inventario.quitar_ingrediente("Carne", contador) + contador
+    contador = inventario.quitar_ingrediente("Queso", contador) + contador
+    contador = inventario.quitar_ingrediente("Cebolla caramelizada", contador) + contador
+    contador = inventario.quitar_ingrediente("Lechuga", contador) + contador
+    contador = inventario.quitar_ingrediente("Tomate", contador) + contador
+    contador = inventario.quitar_ingrediente("Aderezo de la casa", contador) + contador
+    contador = inventario.quitar_ingrediente("Pepinillos", contador) + contador
+    contador = inventario.quitar_ingrediente("Papas", contador) + contador
+    contador = inventario.quitar_ingrediente("Bebida", contador) + contador
+    return contador
+
+#---------------------------------------------------------Menú-----------------------------------------------------------
 
 cola = ColaPedidos()
 inventario = Inventario()
@@ -212,6 +330,7 @@ while opcion != 0:
             print("Error, ingrese solo numeros")
             opcion_menu = 3
         if opcion_menu == 1:
+            #Total(imprimir el valor, guardar en variable)           Aqui me quede
             print("Bienvenido a los combos")
             print("1. Q30 Combo Hamburguesa clasica con papas y bebida")
             print("2. Q35 Combo Hamburguesa con tocino, papas y bebida")
@@ -223,69 +342,43 @@ while opcion != 0:
                 print("Error, ingrese solo numeros")
                 opcion_combos = 5
             if opcion_combos == 1:
-                #Aqui me quede              verificacion de ingredientes
-                contador = 0
-                contador = contador + inventario.quitar_ingrediente("Pan", contador)
-                contador =  contador + inventario.quitar_ingrediente("Carne", contador)
-                contador =  contador + inventario.quitar_ingrediente("Queso", contador)
-                contador = contador + inventario.quitar_ingrediente("Lechuga", contador)
-                contador =  contador + inventario.quitar_ingrediente("Tomate", contador)
-                contador =  contador + inventario.quitar_ingrediente("Aderezo clasico", contador)
-                contador =  contador + inventario.quitar_ingrediente("Pepinillos", contador)
-                contador =  contador + inventario.quitar_ingrediente("Papas", contador)
-                contador =  contador + inventario.quitar_ingrediente("Bebida",contador)
+                contador = quitar_ingredientesC1()
                 if contador == 0:
-                    cola.agregar_pedido(Pedido("Combo Hamburguesa clasica", "Pendiente"))
+                    num_orden += 1
+                    print("Orden: ", num_orden, " Agregada!")
+                    pedido = Pedido("Combo Hamburguesa clasica", "Pendiente", num_orden, 30)
+                    cola.agregar_pedido(pedido)
+                    
                 else:
                     print("No hay ingredientes suficientes!")
                     print("Faltaron: ", contador, " ingredientes")
             elif opcion_combos == 2:
-                contador = 0
-                contador = inventario.quitar_ingrediente("Pan", contador) + contador
-                contador = inventario.quitar_ingrediente("Carne", contador) + contador
-                contador = inventario.quitar_ingrediente("Queso", contador) + contador
-                contador = inventario.quitar_ingrediente("Lechuga", contador) + contador
-                contador = inventario.quitar_ingrediente("Tomate", contador) + contador
-                contador = inventario.quitar_ingrediente("Aderezo clasico", contador) + contador
-                contador = inventario.quitar_ingrediente("Tocino", contador) + contador
-                contador = inventario.quitar_ingrediente("Papas", contador) + contador
-                contador = inventario.quitar_ingrediente("Bebida", contador) + contador
+                contador = quitar_ingredientesC2()
                 if contador == 0:
-                    cola.agregar_pedido(Pedido("Combo Hamburguesa con tocino", "Pendiente"))
+                    num_orden += 1
+                    print("Orden: ", num_orden, " Agregada!")
+                    pedido = Pedido("Combo Hamburguesa con tocino", "Pendiente", num_orden, 35)
+                    cola.agregar_pedido(pedido)
                 else:
                     print("No hay ingredientes suficientes!")
                     print("Faltaron: ", contador, " ingredientes")
             elif opcion_combos == 3:
-                contador = 0
-                contador = inventario.quitar_ingrediente("Pan", contador) + contador
-                contador = inventario.quitar_ingrediente("Carne", contador) + contador
-                contador = inventario.quitar_ingrediente("Queso", contador) + contador
-                contador = inventario.quitar_ingrediente("Queso", contador) + contador
-                contador = inventario.quitar_ingrediente("Lechuga", contador) + contador
-                contador = inventario.quitar_ingrediente("Tomate", contador) + contador
-                contador = inventario.quitar_ingrediente("Aderezo clasico", contador) + contador
-                contador = inventario.quitar_ingrediente("Cebolla morada", contador) + contador
-                contador = inventario.quitar_ingrediente("Papas", contador) + contador
-                contador = inventario.quitar_ingrediente("Bebida", contador) + contador
+                contador = quitar_ingredientesC3()
                 if contador == 0:
-                    cola.agregar_pedido(Pedido("Combo Hamburguesa con doble queso", "Pendiente"))
+                    num_orden += 1
+                    print("Orden: ", num_orden, " Agregada!")
+                    pedido = Pedido("Combo Hamburguesa con doble queso", "Pendiente", num_orden, 35)
+                    cola.agregar_pedido(pedido)
                 else:
                     print("No hay ingredientes suficientes!")
                     print("Faltaron: ", contador, " ingredientes")
             elif opcion_combos == 4:
-                contador = 0
-                contador = inventario.quitar_ingrediente("Pan", contador) + contador
-                contador = inventario.quitar_ingrediente("Carne", contador) + contador
-                contador = inventario.quitar_ingrediente("Queso", contador) + contador
-                contador = inventario.quitar_ingrediente("Cebolla caramelizada", contador) + contador
-                contador = inventario.quitar_ingrediente("Lechuga", contador) + contador
-                contador = inventario.quitar_ingrediente("Tomate", contador) + contador
-                contador = inventario.quitar_ingrediente("Aderezo de la casa", contador) + contador
-                contador = inventario.quitar_ingrediente("Pepinillos", contador) + contador
-                contador = inventario.quitar_ingrediente("Papas", contador) + contador
-                contador = inventario.quitar_ingrediente("Bebida", contador) + contador
+                contador = quitar_ingredientesC4()
                 if contador == 0:
-                    cola.agregar_pedido(Pedido("Combo Hamburguesa de la casa", "Pendiente"))
+                    num_orden += 1
+                    print("Orden: ", num_orden, " Agregada!")
+                    pedido = Pedido("Combo Hamburguesa de la casa", "Pendiente", num_orden, 40)
+                    cola.agregar_pedido(pedido)
                 else:
                     print("No hay ingredientes suficientes!")
                     print("Faltaron: ", contador, " ingredientes")
@@ -426,9 +519,12 @@ while opcion != 0:
                         print("No hay ningun elemento agregado a la orden")
                 elif opcion_menuP == 0:
                     #Aqui se usa la lista de la orden con el numero de orden
-                    num_ordenP += 1
-                    print("Orden: ", num_ordenP, " Agregada!")
-                    cola.agregar_pedido(Pedido("Menú personalizado: " + str(num_ordenP), "Pendiente"))
+                    num_orden += 1
+                    print("Orden: ", num_orden, " Agregada!")
+                    pedido = Pedido("Menú personalizado: " + str(num_ordenP), "Pendiente", num_orden, total_dinero)
+                    cola.agregar_pedido(pedido)
+
+
 
     elif opcion == 2:
         #Muestro el inventario
@@ -453,30 +549,9 @@ while opcion != 0:
                 cola.preparar_pedido()
             elif opcion_cola == 2:
                 cola.listo_para_servir()
+
             elif opcion_cola == 3:
                 cola.mostrar_elementos_cola()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
