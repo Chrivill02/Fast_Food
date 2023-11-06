@@ -27,23 +27,6 @@ class ColaPedidos:
         self.listaPedidos.append(pedido)
         print("Se agregó correctamente el siguiente pedido: ", pedido.nombre)
 
-#La clase pedido tiene nombre y estado
-
-    #ColaPendiente: Orden1, Orden2
-    #ColaPreparacion:
-    #ColaListos:
-
-    #ColaPendiente: Orden2
-    #ColaPreparacion: Orden1
-    #ColaListos:
-
-    #ColaPendiente:
-    #ColaPreparacion = Orden2
-    #ColaListos: Orden1
-
-    #def entregado()
-    #colaListos.get
-
 
     def preparar_pedido(self):
         try:
@@ -74,43 +57,6 @@ class ColaPedidos:
         for i in range(0, len(self.listaPedidos)):
             print(self.listaPedidos[i].nombre, ". Estado: ", self.listaPedidos[i].estado)
 
-
-#Parte de sebas
-def definir_pago():
-    tipo_pago = input("1. Tarjeta de credito\n"
-                      "2. En efectivo\n"
-                      "Seleccione su tipo de pago: ")
-
-    return tipo_pago
-
-
-class Factura:
-    def __init__(self, no_pedido, total, producto):
-        self.no_pedido = no_pedido
-        self.producto = producto
-        self.total = total
-        self.tipo_pago = definir_pago()
-        self.cobro = False
-
-    def mostrar_factura(self):
-        print("\n")
-        print("----------------------")
-        print(f"    {self.no_pedido}")
-        print(f"    {self.total}")
-        print(f"    {self.tipo_pago}")
-        print("----------------------")
-
-    def cobrar(self):
-        if not self.cobro:
-            if self.tipo_pago == "Tarjeta de credito":
-                numero_tarjeta = int(input("Ingrese el numero de su tarjeta: "))
-                print("Se ha pagado su orden :D")
-                numero_tarjeta = 0
-
-            elif self.tipo_pago == "En efectivo":
-                print("Pago realizado :D")
-        else:
-            print("El pago ya esta hecho :D")
 #Clase inventario en donde estará todo el stock
 class Inventario:
     def __init__(self):
@@ -330,7 +276,7 @@ while opcion != 0:
             print("Error, ingrese solo numeros")
             opcion_menu = 3
         if opcion_menu == 1:
-            #Total(imprimir el valor, guardar en variable)           Aqui me quede
+
             print("Bienvenido a los combos")
             print("1. Q30 Combo Hamburguesa clasica con papas y bebida")
             print("2. Q35 Combo Hamburguesa con tocino, papas y bebida")
@@ -345,10 +291,12 @@ while opcion != 0:
                 contador = quitar_ingredientesC1()
                 if contador == 0:
                     num_orden += 1
+                    total = 30
                     print("Orden: ", num_orden, " Agregada!")
-                    pedido = Pedido("Combo Hamburguesa clasica", "Pendiente", num_orden, 30)
+                    pedido = Pedido("Combo Hamburguesa clasica", "Pendiente", num_orden, total)
                     cola.agregar_pedido(pedido)
-                    
+
+
                 else:
                     print("No hay ingredientes suficientes!")
                     print("Faltaron: ", contador, " ingredientes")
@@ -356,8 +304,9 @@ while opcion != 0:
                 contador = quitar_ingredientesC2()
                 if contador == 0:
                     num_orden += 1
+                    total = 35
                     print("Orden: ", num_orden, " Agregada!")
-                    pedido = Pedido("Combo Hamburguesa con tocino", "Pendiente", num_orden, 35)
+                    pedido = Pedido("Combo Hamburguesa con tocino", "Pendiente", num_orden, total)
                     cola.agregar_pedido(pedido)
                 else:
                     print("No hay ingredientes suficientes!")
@@ -366,8 +315,9 @@ while opcion != 0:
                 contador = quitar_ingredientesC3()
                 if contador == 0:
                     num_orden += 1
+                    total = 35
                     print("Orden: ", num_orden, " Agregada!")
-                    pedido = Pedido("Combo Hamburguesa con doble queso", "Pendiente", num_orden, 35)
+                    pedido = Pedido("Combo Hamburguesa con doble queso", "Pendiente", num_orden, total)
                     cola.agregar_pedido(pedido)
                 else:
                     print("No hay ingredientes suficientes!")
@@ -376,8 +326,9 @@ while opcion != 0:
                 contador = quitar_ingredientesC4()
                 if contador == 0:
                     num_orden += 1
+                    total = 40
                     print("Orden: ", num_orden, " Agregada!")
-                    pedido = Pedido("Combo Hamburguesa de la casa", "Pendiente", num_orden, 40)
+                    pedido = Pedido("Combo Hamburguesa de la casa", "Pendiente", num_orden, total)
                     cola.agregar_pedido(pedido)
                 else:
                     print("No hay ingredientes suficientes!")
@@ -554,5 +505,3 @@ while opcion != 0:
                 cola.mostrar_elementos_cola()
 
 
-
-#Espacio para Rodrigo
