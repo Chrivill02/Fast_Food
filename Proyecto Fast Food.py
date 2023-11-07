@@ -37,6 +37,11 @@ class ColaPedidos:
                 print("El pedido ya se encuentra en preparación")
         except IndexError:
             print("No hay pedidos para preparar")
+    def busqueda_secuencial(self, orden):
+        for i, pedido in enumerate(self.listaPedidos):
+            if pedido.num_orden == orden:
+                return i
+        return -1
 #Verificaciones para ver si se puede preparar o servir el pedido
     def listo_para_servir(self):
         try:
@@ -490,6 +495,7 @@ while opcion != 0:
             print("1. Marcar pedido como preparado")
             print("2. Marcar pedido como listo para servir")
             print("3. Ver la cola de pedidos")
+            print("4. Busqueda secuencial")
             print("0. Salir")
             try:
                 opcion_cola = int(input(""))
@@ -503,5 +509,13 @@ while opcion != 0:
 
             elif opcion_cola == 3:
                 cola.mostrar_elementos_cola()
+
+            elif opcion_cola == 4:
+                num_orden = int(input("Ingrese el numero de orden a buscar: "))
+                resultado = cola.busqueda_secuencial(num_orden)
+                if resultado != -1:
+                    print(f"El numero de orden {num_orden} está en la posición {resultado}")
+                else:
+                    print(f"El numero de orden {num_orden} no está en la lista")
 
 
