@@ -1,4 +1,4 @@
-Encabezados="Nombre;NIT;Numero de Telefono; Direccion"
+Encabezados="Nombre;NIT;Numero de Telefono; Direccion, Compras"
 Clientes={}
 Condition=False
 
@@ -10,7 +10,8 @@ while not Condition:
         nombre=input("Ingrese el nombre del nuevo cliente: ")
         direccion=input("Ingrese la dirección del nuevo cliente: ")
         telefono=input("Ingrese el número de teléfono del nuevo cliente: ")
-        Clientes[cliente]={"Nombre":nombre,"Direccion":direccion,"Telefono":telefono}
+        Compras=0
+        Clientes[cliente]={"Nombre":nombre,"Direccion":direccion,"Telefono":telefono,"Compras":Compras}
     else:
         informacion = Clientes[cliente]
         print("Cliente:", informacion["Nombre"])
@@ -19,6 +20,11 @@ while not Condition:
         opcion=input("La informacion es correcta? presione 1 para confirmar y 2 para modificar: ")
         if opcion == "1":
             print("Pedido en camino")
+            Compras_Realizadas = informacion["Compras"]
+            Compras_Realizadas += 1
+            Clientes[cliente]["Compras"] = Compras_Realizadas
+            if Compras_Realizadas>=50:
+                print("Cliente frecuente, aplicar descuento del 5%")
         elif opcion == "2":
             print("1. Nombre del cliente")
             print("2. Numero de contacto")
