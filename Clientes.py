@@ -19,11 +19,11 @@ while not Condition:
         print("Direccion:", informacion["Direccion"])
         opcion=input("La informacion es correcta? presione 1 para confirmar y 2 para modificar: ")
         if opcion == "1":
-            print("Pedido en camino")
+            print("Iniciar proceso de facturacion")
             Compras_Realizadas = informacion["Compras"]
             Compras_Realizadas += 1
             Clientes[cliente]["Compras"] = Compras_Realizadas
-            if Compras_Realizadas>=50:
+            if Compras_Realizadas >= 50:
                 print("Cliente frecuente, aplicar descuento del 5%")
         elif opcion == "2":
             print("1. Nombre del cliente")
@@ -34,10 +34,10 @@ while not Condition:
                 Nuevo=input("Ingrese el Nombre: ")
                 Clientes[cliente]["Nombre"]=Nuevo
             elif opcion2=="2":
-                Nuevo=input("Ingrese el Nombre: ")
-                Clientes[cliente]["Numero de telefono"]=Nuevo
+                Nuevo=input("Ingrese el numero de telefono: ")
+                Clientes[cliente]["Telefono"]=Nuevo
             elif opcion2=="3":
-                Nuevo=input("Ingrese el Nombre: ")
+                Nuevo=input("Ingrese la nueva direccion: ")
                 Clientes[cliente]["Direccion"]=Nuevo
             else:
                 print("Por favor seleccione una opcion valida")
