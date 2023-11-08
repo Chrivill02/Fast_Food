@@ -60,8 +60,8 @@ class ColaPedidos:
         if len(self.listaPedidos) == 0:
             print("Cola vacia")
         for i in range(0, len(self.listaPedidos)):
-            print(self.listaPedidos[i].nombre, ". Estado: ", self.listaPedidos[i].estado)
-
+            print(f"{self.listaPedidos[i].nombre}: {self.listaPedidos[i].num_orden}. Estado: , {self.listaPedidos[i].estado}")
+    
 #Clase inventario en donde estará todo el stock
 class Inventario:
     def __init__(self):
@@ -477,7 +477,7 @@ while opcion != 0:
                     #Aqui se usa la lista de la orden con el numero de orden
                     num_orden += 1
                     print("Orden: ", num_orden, " Agregada!")
-                    pedido = Pedido("Menú personalizado: " + str(num_ordenP), "Pendiente", num_orden, total_dinero)
+                    pedido = Pedido("Menú personalizado" ,"Pendiente", num_orden, total_dinero )
                     cola.agregar_pedido(pedido)
 
 
