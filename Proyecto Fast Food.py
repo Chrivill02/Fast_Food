@@ -7,7 +7,6 @@ num_orden = 0
 
 #Clase donde instancio todos los ingredientes, bebidas, papas etc
 class Facturas:
-
     def __init__(self):
         self.listafacturas = []
 
@@ -45,6 +44,11 @@ class ColaPedidos:
                 print("El pedido ya se encuentra en preparación")
         except IndexError:
             print("No hay pedidos para preparar")
+    def busqueda_secuencial(self, orden):
+        for i, pedido in enumerate(self.listaPedidos):
+            if pedido.num_orden == orden:
+                return i
+        return -1
 #Verificaciones para ver si se puede preparar o servir el pedido
     def listo_para_servir(self):
         try:
@@ -64,9 +68,8 @@ class ColaPedidos:
             print("Cola vacia")
         for i in range(0, len(self.listaPedidos)):
             print(self.listaPedidos[i].nombre, ". Estado: ", self.listaPedidos[i].estado)
-
-
-
+            print(f"{self.listaPedidos[i].nombre}: {self.listaPedidos[i].num_orden}. Estado: , {self.listaPedidos[i].estado}")
+    
 #Clase inventario en donde estará todo el stock
 class Inventario:
     def __init__(self):
@@ -488,7 +491,7 @@ while opcion != 0:
                     #Aqui se usa la lista de la orden con el numero de orden
                     num_orden += 1
                     print("Orden: ", num_orden, " Agregada!")
-                    pedido = Pedido("Menú personalizado: " + str(num_ordenP), "Pendiente", num_orden, total_dinero)
+                    pedido = Pedido("Menú personalizado" ,"Pendiente", num_orden, total_dinero )
                     cola.agregar_pedido(pedido)
 
 
@@ -506,6 +509,7 @@ while opcion != 0:
             print("1. Marcar pedido como preparado")
             print("2. Marcar pedido como listo para servir")
             print("3. Ver la cola de pedidos")
+            print("4. Busqueda secuencial")
             print("0. Salir")
             try:
                 opcion_cola = int(input(""))
@@ -519,6 +523,14 @@ while opcion != 0:
 
             elif opcion_cola == 3:
                 cola.mostrar_elementos_cola()
+
+            elif opcion_cola == 4:
+                num_orden = int(input("Ingrese el numero de orden a buscar: "))
+                resultado = cola.busqueda_secuencial(num_orden)
+                if resultado != -1:
+                    print(f"El numero de orden {num_orden} está en la posición {resultado}")
+                else:
+                    print(f"El numero de orden {num_orden} no está en la lista")
 
     elif opcion == 4:
         for i in range(0, len(lista_facturas.listafacturas)):
