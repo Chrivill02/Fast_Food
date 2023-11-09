@@ -1,9 +1,15 @@
 def definir_pago():
-    tipo_pago = input("1. Tarjeta de credito\n"
-                      "2. En efectivo\n"
-                      "Seleccione su tipo de pago: ")
+    while True:
+        tipo_pago = input("1. Tarjeta de credito\n"
+                          "2. En efectivo\n"
+                          "Seleccione su tipo de pago: ")
 
-    return tipo_pago
+        if tipo_pago == "1":
+            return "Tarjeta de credito"
+        elif tipo_pago == "2":
+            return "En efectivo"
+        else:
+            print("Escoja una opcion valida.")
 
 
 class Factura:
@@ -17,9 +23,10 @@ class Factura:
     def mostrar_factura(self):
         print("\n")
         print("----------------------")
-        print(f"    {self.no_pedido}")
-        print(f"    {self.total}")
-        print(f"    {self.tipo_pago}")
+        print(f"  Numero del pedido: {self.no_pedido}")
+        print(f"  Pedido: {self.producto.nombre}")
+        print(f"  Total: Q{self.total}")
+        print(f"  Tipo del pago: {self.tipo_pago}")
         print("----------------------")
 
     def cobrar(self):

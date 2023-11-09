@@ -1,10 +1,17 @@
 #Espacio para Chris
+import facturacion
 import queue
 #Este numero es para saber el numero de orden (de los menus personalizados), es como un contador
 num_ordenP = 0
 num_orden = 0
 
 #Clase donde instancio todos los ingredientes, bebidas, papas etc
+class Facturas:
+    def __init__(self):
+        self.listafacturas = []
+
+    def crear_factura(self, no_pedido, producto, total):
+        self.listafacturas.append(facturacion.Factura(no_pedido, producto, total))
 
 class Producto:
     def __init__(self, nombre_ingrediente, costo, cantidad):
@@ -60,6 +67,7 @@ class ColaPedidos:
         if len(self.listaPedidos) == 0:
             print("Cola vacia")
         for i in range(0, len(self.listaPedidos)):
+            print(self.listaPedidos[i].nombre, ". Estado: ", self.listaPedidos[i].estado)
             print(f"{self.listaPedidos[i].nombre}: {self.listaPedidos[i].num_orden}. Estado: , {self.listaPedidos[i].estado}")
     
 #Clase inventario en donde estará todo el stock
@@ -254,7 +262,7 @@ def quitar_ingredientesC4():
     return contador
 
 #---------------------------------------------------------Menú-----------------------------------------------------------
-
+lista_facturas = Facturas()
 cola = ColaPedidos()
 inventario = Inventario()
 opcion = 1
@@ -300,7 +308,7 @@ while opcion != 0:
                     print("Orden: ", num_orden, " Agregada!")
                     pedido = Pedido("Combo Hamburguesa clasica", "Pendiente", num_orden, total)
                     cola.agregar_pedido(pedido)
-
+                    lista_facturas.crear_factura(num_orden, total, pedido)
 
                 else:
                     print("No hay ingredientes suficientes!")
@@ -313,6 +321,8 @@ while opcion != 0:
                     print("Orden: ", num_orden, " Agregada!")
                     pedido = Pedido("Combo Hamburguesa con tocino", "Pendiente", num_orden, total)
                     cola.agregar_pedido(pedido)
+                    lista_facturas.crear_factura(num_orden, total, pedido)
+
                 else:
                     print("No hay ingredientes suficientes!")
                     print("Faltaron: ", contador, " ingredientes")
@@ -324,6 +334,8 @@ while opcion != 0:
                     print("Orden: ", num_orden, " Agregada!")
                     pedido = Pedido("Combo Hamburguesa con doble queso", "Pendiente", num_orden, total)
                     cola.agregar_pedido(pedido)
+                    lista_facturas.crear_factura(num_orden, total, pedido)
+
                 else:
                     print("No hay ingredientes suficientes!")
                     print("Faltaron: ", contador, " ingredientes")
@@ -335,6 +347,8 @@ while opcion != 0:
                     print("Orden: ", num_orden, " Agregada!")
                     pedido = Pedido("Combo Hamburguesa de la casa", "Pendiente", num_orden, total)
                     cola.agregar_pedido(pedido)
+                    lista_facturas.crear_factura(num_orden, total, pedido)
+
                 else:
                     print("No hay ingredientes suficientes!")
                     print("Faltaron: ", contador, " ingredientes")
@@ -518,4 +532,8 @@ while opcion != 0:
                 else:
                     print(f"El numero de orden {num_orden} no está en la lista")
 
-
+    elif opcion == 4:
+        for i in range(0, len(lista_facturas.listafacturas)):
+            factura = lista_facturas.listafacturas[i]
+            print(factura.mostrar_factura())
+        
