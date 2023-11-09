@@ -122,3 +122,28 @@ def DatosCliente():
         else:
 
             print("Por favor ingrese una opcion valida")
+
+def IVA(total):
+    IVA=(total*0.12)
+    PrecioIVA=round(total+IVA,2)
+    print("El IVA total es de: Q",IVA)
+    print("Total con IVA incluido: Q",PrecioIVA)
+def pedidos():
+    Precios=[]
+    Pedidos=[]
+    Total=0
+    opcion=input("Desea agregar un nuevo pedido? S/N \n")
+    while opcion=="S" or opcion == "s":
+        if opcion=="S" or opcion == "s":
+            pedido=input("Ingrese su pedido: ")
+            Pedidos.append(pedido)
+            precio=float(input("Ingrese el precio del pedido: "))
+            Precios.append(precio)
+            opcion = input("Desea agregar un nuevo pedido? S/N \n")
+    for i in Pedidos:
+        print (i)
+    for i in Precios:
+        Total=Total+i
+
+    print(Total)
+    print(IVA(Total))
