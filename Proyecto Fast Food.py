@@ -493,6 +493,9 @@ while opcion != 0:
                     print("Orden: ", num_orden, " Agregada!")
                     pedido = Pedido("Menú personalizado" ,"Pendiente", num_orden, total_dinero )
                     cola.agregar_pedido(pedido)
+                    lista_facturas.crear_factura(num_orden, pedido.total, pedido)
+
+
 
 
 
