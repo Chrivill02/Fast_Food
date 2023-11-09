@@ -533,6 +533,7 @@ while opcion != 0:
                     print(f"El numero de orden {num_orden} no está en la lista")
 
     elif opcion == 4:
+        facturacion.ordenamiento_burbuja(lista_facturas.listafacturas)
         for i in range(0, len(lista_facturas.listafacturas)):
             factura = lista_facturas.listafacturas[i]
             print(factura.mostrar_factura())
