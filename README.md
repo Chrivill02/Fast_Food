@@ -16,6 +16,6 @@ Este proyecto se centra en el desarrollo de un sistema para gescionar pedidos en
 - Github
 
 ## Créditos
-- Christian Villegas, carnet *******
+- Christian Andrés Villegas Velasco, carnet 1592623
 - Sebastian Josué Siquiná Tzún, carnet 1581223.
 - Fátima de Lourdes Zárate Alvarado, carnet 1557223.
