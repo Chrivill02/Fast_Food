@@ -601,3 +601,7 @@ while opcion != 0:
         for i in range(0, len(lista_facturas.listafacturas)):
             factura = lista_facturas.listafacturas[i]
             print(factura.mostrar_factura())
+    
+    elif opcion == 5:
+        print("-----Lista de clientes-----")
+        print(Clientes)
