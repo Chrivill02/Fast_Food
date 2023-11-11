@@ -51,7 +51,7 @@ class Factura:
             print("El pago ya esta hecho :D")
 
 def IVA(total):
-    IVA=(total*0.12)
-    PrecioIVA=round(total+IVA,2)
+    IVA=round((total*0.12),2)
+    PrecioIVA=round((total+IVA),2)
     print("El IVA total es de: Q",IVA)
     print("Total con IVA incluido: Q",PrecioIVA)
