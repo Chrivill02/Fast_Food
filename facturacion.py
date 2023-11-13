@@ -13,6 +13,7 @@ def definir_pago():
 
 
 def IVA(total):
+    IVA = round((total*0.12), 2)
     PrecioIVA = round((total+IVA), 2)
     print("El IVA total es de: Q", IVA)
     print("Total con IVA incluido: Q", PrecioIVA)
