@@ -10,8 +10,8 @@ class Facturas:
     def __init__(self):
         self.listafacturas = []
 
-    def crear_factura(self, no_pedido, producto, total):
-        self.listafacturas.append(facturacion.Factura(no_pedido, producto, total))
+    def crear_factura(self, no_pedido, total, producto, nombre, nit, telefono, direccion):
+        self.listafacturas.append(facturacion.Factura(no_pedido, total, producto, nombre, nit, telefono, direccion))
 
 class Producto:
     def __init__(self, nombre_ingrediente, costo, cantidad):
@@ -316,7 +316,6 @@ while opcion != 0:
                             print("Orden: ", num_orden, " Agregada!")
                             pedido = Pedido("Combo Hamburguesa clasica", "Pendiente", num_orden, total)
                             cola.agregar_pedido(pedido)
-                            lista_facturas.crear_factura(num_orden, total, pedido)
                             Pedidos.append("Combo Hamburguesa clasica")
                             Precios.append(total)
 
@@ -331,7 +330,6 @@ while opcion != 0:
                             print("Orden: ", num_orden, " Agregada!")
                             pedido = Pedido("Combo Hamburguesa con tocino", "Pendiente", num_orden, total)
                             cola.agregar_pedido(pedido)
-                            lista_facturas.crear_factura(num_orden, total, pedido)
                             Pedidos.append("Combo Hamburguesa con tocino")
                             Precios.append(total)
 
@@ -346,7 +344,6 @@ while opcion != 0:
                             print("Orden: ", num_orden, " Agregada!")
                             pedido = Pedido("Combo Hamburguesa con doble queso", "Pendiente", num_orden, total)
                             cola.agregar_pedido(pedido)
-                            lista_facturas.crear_factura(num_orden, total, pedido)
                             Pedidos.append("Combo Hamburguesa con doble queso")
                             Precios.append(total)
 
@@ -361,7 +358,6 @@ while opcion != 0:
                             print("Orden: ", num_orden, " Agregada!")
                             pedido = Pedido("Combo Hamburguesa de la casa", "Pendiente", num_orden, total)
                             cola.agregar_pedido(pedido)
-                            lista_facturas.crear_factura(num_orden, total, pedido)
                             Pedidos.append("Combo Hamburguesa de la casa")
                             Precios.append(total)
 
@@ -513,15 +509,16 @@ while opcion != 0:
                             print("Orden: ", num_orden, " Agregada!")
                             pedido = Pedido("Menú personalizado", "Pendiente", num_orden, total_dinero)
                             cola.agregar_pedido(pedido)
-                            lista_facturas.crear_factura(num_orden, pedido.total, pedido)
                 opcion = input("Presione 1 para agregar un nuevo pedido \n")
-#Cuando se haya terminado de pedir, esta parte se encargara de entregarnos tanto el valor de la factura como la orden
+
+        #Cuando se haya terminado de pedir, esta parte se encargara de entregarnos tanto el valor de la factura como la orden
 #que se pidio
         for i in Pedidos:
             print(i)
         for i in Precios:
             Total = Total + i
-        print("El total de su factura seria de: Q",Total)
+
+        print("El total de su factura seria de: Q", Total)
 #Esta funcion tambien nos calculara el IVA total y nos dara el precio con dicho impuesto
         facturacion.IVA(Total)
         facturacion.definir_pago()
@@ -553,7 +550,12 @@ while opcion != 0:
                 if Compras_Realizadas >= 50:
                     Frecuente = True
                     print("Cliente frecuente, aplicar descuento del 5%")
-        print("Imprimiendo factura, por favor espere")
+        print("Generando factura, por favor espere")
+
+        lista_facturas.crear_factura(num_orden, Total, Pedidos, Clientes[cliente]["Nombre"],
+                                     cliente, Clientes[cliente]["Telefono"],
+                                     Clientes[cliente]["Direccion"])
+
 
 
 

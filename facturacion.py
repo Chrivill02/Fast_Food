@@ -11,6 +11,13 @@ def definir_pago():
         else:
             print("Escoja una opcion valida.")
 
+
+def IVA(total):
+    PrecioIVA = round((total+IVA), 2)
+    print("El IVA total es de: Q", IVA)
+    print("Total con IVA incluido: Q", PrecioIVA)
+
+
 def ordenamiento_burbuja(lista):
     n = len(lista)
     for i in range(n):
@@ -20,23 +27,32 @@ def ordenamiento_burbuja(lista):
 
 
 class Factura:
-    def __init__(self, no_pedido, total, producto):
+    def __init__(self, no_pedido, total, producto, nombre, nit, telefono, direccion):
         self.no_pedido = no_pedido
         self.producto = producto
         self.total = total
         self.tipo_pago = definir_pago()
         self.cobro = False
+        self.cliente_nombre = nombre
+        self.cliente_nit = nit
+        self.cliente_telefono = telefono
+        self.cliente_direccion = direccion
 
     def mostrar_factura(self):
         print("\n")
         print("----------------------")
         print(f"  Numero del pedido: {self.no_pedido}")
-        print(f"  Pedido: {self.producto.nombre}")
+        for i in self.producto:
+            print(f"  Pedido: {i}")
         print(f"  Total: Q{self.total}")
         print(f"  Tipo del pago: {self.tipo_pago}")
+        print(f"\n")
+        print(f"  Datos del cliente:")
+        print(f"  Nombre: {self.cliente_nombre}")
+        print(f"  Nit: {self.cliente_nit}")
+        print(f"  Direccion: {self.cliente_direccion}")
+        print(f"  Telefono: {self.cliente_telefono}")
         print("----------------------")
-
-
 
     def cobrar(self):
         if not self.cobro:
@@ -49,9 +65,3 @@ class Factura:
                 print("Pago realizado :D")
         else:
             print("El pago ya esta hecho :D")
-
-def IVA(total):
-    IVA=round((total*0.12),2)
-    PrecioIVA=round((total+IVA),2)
-    print("El IVA total es de: Q",IVA)
-    print("Total con IVA incluido: Q",PrecioIVA)
