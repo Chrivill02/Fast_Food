@@ -535,6 +535,17 @@ while opcion != 0:
             Frecuente = False
             Clientes[cliente] = {"Nombre": nombre, "Direccion": direccion, "Telefono": telefono, "Compras": Compras,
                                  "Frecuente": Frecuente}
+            opcion = input("La informacion es correcta? presione 1 para confirmar y 2 para modificar: ")
+            if opcion == "1":
+                informacion = Clientes[cliente]
+                print("Iniciar proceso de facturacion")
+                Compras_Realizadas = informacion["Compras"]
+                Compras_Realizadas += 1
+                Clientes[cliente]["Compras"] = Compras_Realizadas
+                if Compras_Realizadas >= 50:
+                    Frecuente = True
+                    print("Cliente frecuente, aplicar descuento del 5%")
+
 #En caso de sí tener al cliente registrado, se nos mostrara toda su informacion junto a la posibilidad de modificarlo
         else:
             informacion = Clientes[cliente]
