@@ -284,7 +284,7 @@ while opcion != 0:
         Precios = []
         Pedidos = []
         Total = 0
-        opcion = input("Presione 1 para agregar un nuevo pedido \n")
+        opcion = "1"
         while opcion == "1":
             if opcion == "1":
                 print("Bienvenido al menu")
@@ -475,7 +475,7 @@ while opcion != 0:
                                         print("Ingredientes: ")
                                         for i in range(0, len(listaHamburguesaP)):
                                             print(listaHamburguesaP[i], end=" , ")
-                                        print("Total: ", total_dinero)
+                                        print("Total: Q", total_dinero)
                                 Pedidos.append("Hamburguesa personalizada")
                                 Precios.append(total_dinero)
                             else:
@@ -508,7 +508,7 @@ while opcion != 0:
                             print("Orden: ", num_orden, " Agregada!")
                             pedido = Pedido("Menú personalizado", "Pendiente", num_orden, total_dinero)
                             cola.agregar_pedido(pedido)
-                opcion = input("Presione 1 para agregar un nuevo pedido \n")
+                opcion = input("Presione 1 para agregar un nuevo pedido o 0 para salir \n")
 
         #Cuando se haya terminado de pedir, esta parte se encargara de entregarnos tanto el valor de la factura como la orden
 #que se pidio
