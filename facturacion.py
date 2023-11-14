@@ -1,3 +1,4 @@
+# Otro metodo para que se vea mas bonita la factura
 def definir_pago():
     while True:
         tipo_pago = input("1. Tarjeta de credito\n"
@@ -12,6 +13,7 @@ def definir_pago():
             print("Escoja una opcion valida.")
 
 
+# Funcion para determinar el iva
 def IVA(total):
     IVA = round((total*0.12), 2)
     PrecioIVA = round((total+IVA), 2)
@@ -28,6 +30,7 @@ def ordenamiento_burbuja(lista):
 
 
 class Factura:
+    # Inicializacion de los datos de cada factura
     def __init__(self, no_pedido, total, producto, nombre, nit, telefono, direccion):
         self.no_pedido = no_pedido
         self.producto = producto
@@ -39,6 +42,7 @@ class Factura:
         self.cliente_telefono = telefono
         self.cliente_direccion = direccion
 
+    # Metodo para mostrar los datos de la factura, se podria haber hecho en una funcion
     def mostrar_factura(self):
         print("\n")
         print("----------------------")
@@ -55,6 +59,7 @@ class Factura:
         print(f"  Telefono: {self.cliente_telefono}")
         print("----------------------")
 
+    # Un metodo para que se vea bonita la facturaaciocn :D
     def cobrar(self):
         if not self.cobro:
             if self.tipo_pago == "Tarjeta de credito":
