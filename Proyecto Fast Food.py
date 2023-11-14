@@ -512,58 +512,61 @@ while opcion != 0:
 
         #Cuando se haya terminado de pedir, esta parte se encargara de entregarnos tanto el valor de la factura como la orden
 #que se pidio
-        for i in Pedidos:
-            print(i)
-        for i in Precios:
-            Total = Total + i
-
-        print("El total de su factura seria de: Q", Total)
-#Esta funcion tambien nos calculara el IVA total y nos dara el precio con dicho impuesto
-        facturacion.IVA(Total)
-#El siguiente proceso nos ayudara para poder agregar los datos de la facturacion. La informacion del cliente
-#y demas cosas que fueran de utilidad, dando opcion a crear un nuevo cliente si no lo tuvieramos registrado
-        print("-----Datos de facturacion-----")
-        cliente = input("Ingrese el NIT del cliente: ")
-        if cliente not in Clientes:
-            print("Nuevo cliente")
-            nombre = input("Ingrese el nombre del nuevo cliente: ")
-            direccion = input("Ingrese la dirección del nuevo cliente: ")
-            telefono = input("Ingrese el número de teléfono del nuevo cliente: ")
-            Compras = 0
-            Frecuente = False
-            Clientes[cliente] = {"Nombre": nombre, "Direccion": direccion, "Telefono": telefono, "Compras": Compras,
-                                 "Frecuente": Frecuente}
-            opcion = input("La informacion es correcta? presione 1 para confirmar y 2 para modificar: ")
-            if opcion == "1":
-                informacion = Clientes[cliente]
-                print("Iniciar proceso de facturacion")
-                Compras_Realizadas = informacion["Compras"]
-                Compras_Realizadas += 1
-                Clientes[cliente]["Compras"] = Compras_Realizadas
-                if Compras_Realizadas >= 50:
-                    Frecuente = True
-                    print("Cliente frecuente, aplicar descuento del 5%")
-
-#En caso de sí tener al cliente registrado, se nos mostrara toda su informacion junto a la posibilidad de modificarlo
+        if Total == 0:
+            print("Orden vacía")
         else:
-            informacion = Clientes[cliente]
-            print("Cliente:", informacion["Nombre"])
-            print("Numero de contacto:", informacion["Telefono"])
-            print("Direccion:", informacion["Direccion"])
-            opcion = input("La informacion es correcta? presione 1 para confirmar y 2 para modificar: ")
-            if opcion == "1":
-                print("Iniciar proceso de facturacion")
-                Compras_Realizadas = informacion["Compras"]
-                Compras_Realizadas += 1
-                Clientes[cliente]["Compras"] = Compras_Realizadas
-                if Compras_Realizadas >= 50:
-                    Frecuente = True
-                    print("Cliente frecuente, aplicar descuento del 5%")
-        print("Generando factura, por favor espere")
+            for i in Pedidos:
+                print(i)
+            for i in Precios:
+                Total = Total + i
 
-        lista_facturas.crear_factura(num_orden, Total, Pedidos, Clientes[cliente]["Nombre"],
-                                     cliente, Clientes[cliente]["Telefono"],
-                                     Clientes[cliente]["Direccion"])
+                print("El total de su factura seria de: Q", Total)
+        #Esta funcion tambien nos calculara el IVA total y nos dara el precio con dicho impuesto
+                facturacion.IVA(Total)
+        #El siguiente proceso nos ayudara para poder agregar los datos de la facturacion. La informacion del cliente
+        #y demas cosas que fueran de utilidad, dando opcion a crear un nuevo cliente si no lo tuvieramos registrado
+                print("-----Datos de facturacion-----")
+                cliente = input("Ingrese el NIT del cliente: ")
+                if cliente not in Clientes:
+                    print("Nuevo cliente")
+                    nombre = input("Ingrese el nombre del nuevo cliente: ")
+                    direccion = input("Ingrese la dirección del nuevo cliente: ")
+                    telefono = input("Ingrese el número de teléfono del nuevo cliente: ")
+                    Compras = 0
+                    Frecuente = False
+                    Clientes[cliente] = {"Nombre": nombre, "Direccion": direccion, "Telefono": telefono, "Compras": Compras,
+                                         "Frecuente": Frecuente}
+                    opcion = input("La informacion es correcta? presione 1 para confirmar y 2 para modificar: ")
+                    if opcion == "1":
+                        informacion = Clientes[cliente]
+                        print("Iniciar proceso de facturacion")
+                        Compras_Realizadas = informacion["Compras"]
+                        Compras_Realizadas += 1
+                        Clientes[cliente]["Compras"] = Compras_Realizadas
+                        if Compras_Realizadas >= 50:
+                            Frecuente = True
+                            print("Cliente frecuente, aplicar descuento del 5%")
+
+        #En caso de sí tener al cliente registrado, se nos mostrara toda su informacion junto a la posibilidad de modificarlo
+                else:
+                    informacion = Clientes[cliente]
+                    print("Cliente:", informacion["Nombre"])
+                    print("Numero de contacto:", informacion["Telefono"])
+                    print("Direccion:", informacion["Direccion"])
+                    opcion = input("La informacion es correcta? presione 1 para confirmar y 2 para modificar: ")
+                    if opcion == "1":
+                        print("Iniciar proceso de facturacion")
+                        Compras_Realizadas = informacion["Compras"]
+                        Compras_Realizadas += 1
+                        Clientes[cliente]["Compras"] = Compras_Realizadas
+                        if Compras_Realizadas >= 50:
+                            Frecuente = True
+                            print("Cliente frecuente, aplicar descuento del 5%")
+                print("Generando factura, por favor espere")
+
+                lista_facturas.crear_factura(num_orden, Total, Pedidos, Clientes[cliente]["Nombre"],
+                                             cliente, Clientes[cliente]["Telefono"],
+                                             Clientes[cliente]["Direccion"])
 
 
 
@@ -607,12 +610,14 @@ while opcion != 0:
                     print(f"El numero de orden {num_orden} no está en la lista")
 
     elif opcion == 4:
+        if len(lista_facturas.listafacturas) == 0:
+            print("No hay facturas")
+        else:
+            facturacion.ordenamiento_burbuja(lista_facturas.listafacturas)
+            for i in range(0, len(lista_facturas.listafacturas)):
+                factura = lista_facturas.listafacturas[i]
+                print(factura.mostrar_factura())
 
-        facturacion.ordenamiento_burbuja(lista_facturas.listafacturas)
-        for i in range(0, len(lista_facturas.listafacturas)):
-            factura = lista_facturas.listafacturas[i]
-            print(factura.mostrar_factura())
-    
     elif opcion == 5:
         print("-----Lista de clientes-----")
         print(Clientes)
