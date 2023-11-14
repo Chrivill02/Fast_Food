@@ -499,7 +499,7 @@ while opcion != 0:
                             try:
                                 for i in range(0, len(listaOrdenP)):
                                     print(listaOrdenP[i], end=" , ")
-                                print("Total: ", total_dinero)
+                                print("Total de orden personalizada: Q", total_dinero)
                             except IndexError:
                                 print("No hay ningun elemento agregado a la orden")
                         elif opcion_menuP == 0:
@@ -512,13 +512,15 @@ while opcion != 0:
 
         #Cuando se haya terminado de pedir, esta parte se encargara de entregarnos tanto el valor de la factura como la orden
 #que se pidio
+
+
+        for i in Pedidos:
+            print(i)
+        for i in Precios:
+            Total = Total + i
         if Total == 0:
-            print("Orden vacía")
+            print("Orden vacia")
         else:
-            for i in Pedidos:
-                print(i)
-            for i in Precios:
-                Total = Total + i
 
                 print("El total de su factura seria de: Q", Total)
         #Esta funcion tambien nos calculara el IVA total y nos dara el precio con dicho impuesto
