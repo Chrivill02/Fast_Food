@@ -67,7 +67,6 @@ class ColaPedidos:
         if len(self.listaPedidos) == 0:
             print("Cola vacia")
         for i in range(0, len(self.listaPedidos)):
-            print(self.listaPedidos[i].nombre, ". Estado: ", self.listaPedidos[i].estado)
             print(f"{self.listaPedidos[i].nombre}: {self.listaPedidos[i].num_orden}. Estado: , {self.listaPedidos[i].estado}")
     
 #Clase inventario en donde estará todo el stock
