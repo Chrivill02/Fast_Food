@@ -520,7 +520,6 @@ while opcion != 0:
         print("El total de su factura seria de: Q", Total)
 #Esta funcion tambien nos calculara el IVA total y nos dara el precio con dicho impuesto
         facturacion.IVA(Total)
-        facturacion.definir_pago()
 #El siguiente proceso nos ayudara para poder agregar los datos de la facturacion. La informacion del cliente
 #y demas cosas que fueran de utilidad, dando opcion a crear un nuevo cliente si no lo tuvieramos registrado
         print("-----Datos de facturacion-----")
