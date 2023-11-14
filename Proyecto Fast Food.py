@@ -284,7 +284,7 @@ while opcion != 0:
         Precios = []
         Pedidos = []
         Total = 0
-        opcion = input("Presione 1 para iniciar la orden \n")
+        opcion = input("Presione 1 para agregar un nuevo pedido \n")
         while opcion == "1":
             if opcion == "1":
                 print("Bienvenido al menu")
