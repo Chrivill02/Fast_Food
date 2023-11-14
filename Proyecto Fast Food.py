@@ -508,7 +508,7 @@ while opcion != 0:
                             print("Orden: ", num_orden, " Agregada!")
                             pedido = Pedido("Menú personalizado", "Pendiente", num_orden, total_dinero)
                             cola.agregar_pedido(pedido)
-                opcion = input("Presione 1 para agregar un nuevo pedido o 0 para salir \n")
+                opcion = input("Presione 1 para agregar un nuevo pedido o cualquier tecla para salir \n")
 
         #Cuando se haya terminado de pedir, esta parte se encargara de entregarnos tanto el valor de la factura como la orden
 #que se pidio
